@@ -1,3 +1,3 @@
-# ToDoApp :smile_cat:
+# Hospitales FONASA
 
-Aplicación creada con React-Native Expo
+Aplicación creada con PHP :smile_cat:
