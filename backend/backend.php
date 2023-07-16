@@ -1,7 +1,6 @@
 <?php
   include './common/config.php';
   include './common/mysql.php';
-  include './common/utils.php';
 
   $connection = Connect($config['database']);
 
@@ -14,6 +13,10 @@
 
     if ($action === 'pacientes'){
       obtenerPacientes($connection);
+    }
+
+    if ($action === 'consultas'){
+      obtenerConsultas($connection);
     }
   }
   mysqli_close($connection);
@@ -85,6 +88,13 @@
               a.riesgo AS ancianoRiesgo
             FROM paciente p INNER JOIN anciano a ON p.ID = a.pacienteID
             WHERE p.hospitalID = $hospitalID);";
+    $data = ExecuteQuery($sql, $connection);
+    echo json_encode($data);
+  }
+
+  function obtenerConsultas($connection) {
+    $hospitalID = $_GET["hospitalID"];
+    $sql = "SELECT * FROM consulta WHERE hospitalID = $hospitalID";
     $data = ExecuteQuery($sql, $connection);
     echo json_encode($data);
   }
