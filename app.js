@@ -1,5 +1,15 @@
 $(document).ready(function(){
   obtenerHospitales();
+
+  // Evento click en los botones del menú
+  $('.menu-btn').click(function() {
+    var botonTexto = $(this).text();
+    $('#accionModalLabel').text(botonTexto);
+    
+    $('#accionContenido').text('Se ha hecho clic en el botón "' + botonTexto + '"');
+
+    $('#accionModal').modal('show');
+  });
 });
 
 function obtenerHospitales(){
@@ -29,6 +39,7 @@ function obtenerHospitales(){
             return function() {
               mostrarPacientesHospital(hospitalID);
               mostrarConsultasHospital(hospitalID);
+              $('#menu-botones').removeClass('d-none');
             };
           })(hospital.ID));
           rowDiv.append(cardElement);
@@ -71,34 +82,34 @@ function construirTablaPacientes(tablaId, pacientes) {
   const encabezado = document.createElement('thead');
 
   const nombreTabla = document.createElement('tr');
-  nombreTabla.innerHTML = `<th class="nombre-tabla">${tablaId.charAt(0).toUpperCase() + tablaId.slice(1).toLowerCase()}</th>`;
+  nombreTabla.innerHTML = `<th class="nombre-tabla table-info border border-info">${tablaId.charAt(0).toUpperCase() + tablaId.slice(1).toLowerCase()}</th>`;
   encabezado.appendChild(nombreTabla);
 
   const encabezadoFila = document.createElement('tr');
   if (tablaId === 'infantes'){
-    encabezadoFila.innerHTML = `<th>Nombre</th>
-                                <th>Edad</th>
-                                <th>Peso - estatura</th>
-                                <th>Prioridad</th>
-                                <th>Riesgo</th>
-                                <th>Ingreso</th>`;
+    encabezadoFila.innerHTML = `<th class="table-info border border-info">Nombre</th>
+                                <th class="table-info border border-info">Edad</th>
+                                <th class="table-info border border-info">Peso - estatura</th>
+                                <th class="table-info border border-info">Prioridad</th>
+                                <th class="table-info border border-info">Riesgo</th>
+                                <th class="table-info border border-info">Ingreso</th>`;
   }
   if (tablaId === 'jovenes'){
-    encabezadoFila.innerHTML = `<th>Nombre</th>
-                                <th>Edad</th>
-                                <th>Fumador</th>
-                                <th>Años fumando</th>
-                                <th>Prioridad</th>
-                                <th>Riesgo</th>
-                                <th>Ingreso</th>`;
+    encabezadoFila.innerHTML = `<th class="table-info border border-info">Nombre</th>
+                                <th class="table-info border border-info">Edad</th>
+                                <th class="table-info border border-info">Fumador</th>
+                                <th class="table-info border border-info">Años fumando</th>
+                                <th class="table-info border border-info">Prioridad</th>
+                                <th class="table-info border border-info">Riesgo</th>
+                                <th class="table-info border border-info">Ingreso</th>`;
   }
   if (tablaId === 'ancianos'){
-    encabezadoFila.innerHTML = `<th>Nombre</th>
-                                <th>Edad</th>
-                                <th>Dieta</th>
-                                <th>Prioridad</th>
-                                <th>Riesgo</th>
-                                <th>Ingreso</th>`;
+    encabezadoFila.innerHTML = `<th class="table-info border border-info">Nombre</th>
+                                <th class="table-info border border-info">Edad</th>
+                                <th class="table-info border border-info">Dieta</th>
+                                <th class="table-info border border-info">Prioridad</th>
+                                <th class="table-info border border-info">Riesgo</th>
+                                <th class="table-info border border-info">Ingreso</th>`;
   }
   encabezado.appendChild(encabezadoFila);
   tabla.appendChild(encabezado);
@@ -108,29 +119,29 @@ function construirTablaPacientes(tablaId, pacientes) {
   pacientes.forEach(paciente => {
     const fila = document.createElement('tr');
     if (tablaId === 'infantes'){
-        fila.innerHTML = `<td>${paciente.nombre}</td>
-                          <td>${paciente.edad}</td>
-                          <td>${paciente.infantePesoEstatura}</td>
-                          <td>${paciente.infantePrioridad}</td>
-                          <td>${paciente.infanteRiesgo}</td>
-                          <td>${paciente.ultimoIngreso}</td>`;
+        fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
+                          <td class="border border-info">${paciente.edad}</td>
+                          <td class="border border-info">${paciente.infantePesoEstatura}</td>
+                          <td class="border border-info">${paciente.infantePrioridad}</td>
+                          <td class="border border-info">${paciente.infanteRiesgo}</td>
+                          <td class="border border-info">${paciente.ultimoIngreso}</td>`;
     }
     if (tablaId === 'jovenes'){
-        fila.innerHTML = `<td>${paciente.nombre}</td>
-                          <td>${paciente.edad}</td>
-                          <td>${paciente.jovenFumador === '1' ? 'Si' : 'No'}</td>
-                          <td>${paciente.jovenAñosFumador}</td>
-                          <td>${paciente.jovenPrioridad}</td>
-                          <td>${paciente.jovenRiesgo}</td>
-                          <td>${paciente.ultimoIngreso}</td>`;
+        fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
+                          <td class="border border-info">${paciente.edad}</td>
+                          <td class="border border-info">${paciente.jovenFumador === '1' ? 'Si' : 'No'}</td>
+                          <td class="border border-info">${paciente.jovenAñosFumador}</td>
+                          <td class="border border-info">${paciente.jovenPrioridad}</td>
+                          <td class="border border-info">${paciente.jovenRiesgo}</td>
+                          <td class="border border-info">${paciente.ultimoIngreso}</td>`;
     }
     if (tablaId === 'ancianos'){
-      fila.innerHTML = `<td>${paciente.nombre}</td>
-                        <td>${paciente.edad}</td>
-                        <td>${paciente.ancianoDieta === '1' ? 'Si' : 'No'}</td>
-                        <td>${paciente.ancianoPrioridad}</td>
-                        <td>${paciente.ancianoRiesgo}</td>
-                        <td>${paciente.ultimoIngreso}</td>`;
+      fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
+                        <td class="border border-info">${paciente.edad}</td>
+                        <td class="border border-info">${paciente.ancianoDieta === '1' ? 'Si' : 'No'}</td>
+                        <td class="border border-info">${paciente.ancianoPrioridad}</td>
+                        <td class="border border-info">${paciente.ancianoRiesgo}</td>
+                        <td class="border border-info">${paciente.ultimoIngreso}</td>`;
   }
     
     cuerpo.appendChild(fila);
@@ -146,14 +157,27 @@ function mostrarConsultasHospital(hospitalID){
     data: { action: 'consultas', hospitalID: hospitalID },
     success: function(data){
       $('#consultas').removeClass('d-none');
-      const tabla = document.getElementById('consultas');
+      const tabla = document.getElementById('tabla-consultas');
       tabla.innerHTML = '';
       const encabezado = document.createElement('thead');
       const encabezadoFila = document.createElement('tr');
-      encabezadoFila.innerHTML = `<th>Consulta</th>
-                                  <th>Especialista</th>
-                                  <th>Tipo</th>
-                                  <th>Estado</th>`;
+      encabezadoFila.innerHTML = `<th class="table-info border border-info">Consulta</th>
+                                  <th class="table-info border border-info">Especialista</th>
+                                  <th class="table-info border border-info">Tipo</th>
+                                  <th class="table-info border border-info">Estado</th>`;
+      encabezado.appendChild(encabezadoFila);
+      tabla.appendChild(encabezado);
+
+      const cuerpo = document.createElement('tbody');
+      data.forEach(consulta => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `<td class="border border-info">${consulta.ID}</td>
+                          <td class="border border-info">${consulta.nombreEspecialista}</td>
+                          <td class="border border-info">${consulta.tipoConsulta}</td>
+                          <td class="border border-info">${consulta.estado}</td>`;
+        cuerpo.appendChild(fila);
+      })
+      tabla.appendChild(cuerpo);
     },
     error: function(xhr, status, error){
       console.log('Error al obtener los detalles del hospital: ' + error);

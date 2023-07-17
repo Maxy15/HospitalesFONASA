@@ -87,7 +87,8 @@
               a.prioridad AS ancianoPrioridad,
               a.riesgo AS ancianoRiesgo
             FROM paciente p INNER JOIN anciano a ON p.ID = a.pacienteID
-            WHERE p.hospitalID = $hospitalID);";
+            WHERE p.hospitalID = $hospitalID)
+            ORDER BY infantePrioridad DESC, jovenPrioridad DESC, ancianoPrioridad DESC, ultimoIngreso ASC;";
     $data = ExecuteQuery($sql, $connection);
     echo json_encode($data);
   }

@@ -17,11 +17,11 @@ html, body {
 .card {
   width: 25rem;
   padding: 1.5rem;
-  border: solid #5bc0de 3px;
+  border: solid #5bc0de 1px;
 }
 
 .card:hover {
-  border: dashed #5bc0de 3px;
+  border: dashed #5bc0de 1px;
 }
   
 .card-img-top {
@@ -36,3 +36,32 @@ html, body {
   margin: 10px;
 }
 
+.tabla-pacientes {
+  margin: 0 auto;
+  padding: 10px;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.tabla-pacientes th,
+.tabla-pacientes td {
+  text-align: center;
+  padding: 10px;
+  font-weight: lighter;
+}
+
+.tabla-pacientes thead {
+  background-color: #5bc0de;
+  color: white;
+  font-weight: lighter;
+}
+
+.nombre-tabla {
+  background-color: #5bc0de;
+  text-align: center;
+}
+
+.table-info {
+  color: #fff;
+  background-color: #17a2b8;
+}
