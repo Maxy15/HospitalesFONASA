@@ -1,26 +1,4 @@
 <?php
-  include './common/config.php';
-  include './common/mysql.php';
-
-  $connection = Connect($config['database']);
-
-  if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    $action = $_GET["action"];
-
-    if ($action === 'hospitales') {
-      obtenerHospitales($connection);
-    }
-
-    if ($action === 'pacientes'){
-      obtenerPacientes($connection);
-    }
-
-    if ($action === 'consultas'){
-      obtenerConsultas($connection);
-    }
-  }
-  mysqli_close($connection);
-
   function obtenerHospitales($connection) {
     $sql = "SELECT * FROM hospital";
     $data = ExecuteQuery($sql, $connection);

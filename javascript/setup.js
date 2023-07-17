@@ -1,20 +1,10 @@
 $(document).ready(function(){
   obtenerHospitales();
-
-  // Evento click en los botones del menú
-  $('.menu-btn').click(function() {
-    var botonTexto = $(this).text();
-    $('#accionModalLabel').text(botonTexto);
-    
-    $('#accionContenido').text('Se ha hecho clic en el botón "' + botonTexto + '"');
-
-    $('#accionModal').modal('show');
-  });
 });
 
 function obtenerHospitales(){
   $.ajax({
-    url: './backend/backend.php',
+    url: './PHP/backend.php',
     type: 'GET',
     dataType: 'json',
     data: { action: 'hospitales' },
@@ -56,7 +46,7 @@ function obtenerHospitales(){
 
 function mostrarPacientesHospital(hospitalID){
   $.ajax({
-    url: './backend/backend.php',
+    url: './PHP/backend.php',
     type: 'GET',
     dataType: 'json',
     data: { action: 'pacientes', hospitalID: hospitalID },
@@ -82,7 +72,8 @@ function construirTablaPacientes(tablaId, pacientes) {
   const encabezado = document.createElement('thead');
 
   const nombreTabla = document.createElement('tr');
-  nombreTabla.innerHTML = `<th class="nombre-tabla table-info border border-info">${tablaId.charAt(0).toUpperCase() + tablaId.slice(1).toLowerCase()}</th>`;
+  const nombreCapitalizado = tablaId.charAt(0).toUpperCase() + tablaId.slice(1).toLowerCase()
+  nombreTabla.innerHTML = `<th class="nombre-tabla table-info border border-info">${nombreCapitalizado}</th>`;
   encabezado.appendChild(nombreTabla);
 
   const encabezadoFila = document.createElement('tr');
@@ -151,7 +142,7 @@ function construirTablaPacientes(tablaId, pacientes) {
 
 function mostrarConsultasHospital(hospitalID){
   $.ajax({
-    url: './backend/backend.php',
+    url: './PHP/backend.php',
     type: 'GET',
     dataType: 'json',
     data: { action: 'consultas', hospitalID: hospitalID },
