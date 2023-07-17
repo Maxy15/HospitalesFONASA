@@ -18,6 +18,12 @@
       case 'consultas':
         obtenerConsultas($connection);
         break;
+      case 'masAnciano':
+        obtenerMasAnciano($connection);
+        break;
+      case 'mejorConsulta':
+        obtenerMejorConsulta($connection);
+        break;
     }
   }
   mysqli_close($connection);

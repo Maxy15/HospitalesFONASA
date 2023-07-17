@@ -19,7 +19,7 @@ function obtenerHospitales(){
             <div id="${hospital.ID}" class="col-md-6">
               <div class="card">
                 <img src="./images/hospital.jpeg" class="card-img-top" alt="${hospital.nombre}">
-                <h5 class="mt-2 text-center card-title">${hospital.nombre}</h5>
+                <p class="mt-2 text-center card-title">${hospital.nombre}</p>
               </div>
             </div>
           `;
@@ -30,6 +30,7 @@ function obtenerHospitales(){
               mostrarPacientesHospital(hospitalID);
               mostrarConsultasHospital(hospitalID);
               $('#menu-botones').removeClass('d-none');
+              localStorage.setItem('hospitalID', hospitalID);
             };
           })(hospital.ID));
           rowDiv.append(cardElement);
@@ -72,8 +73,7 @@ function construirTablaPacientes(tablaId, pacientes) {
   const encabezado = document.createElement('thead');
 
   const nombreTabla = document.createElement('tr');
-  const nombreCapitalizado = tablaId.charAt(0).toUpperCase() + tablaId.slice(1).toLowerCase()
-  nombreTabla.innerHTML = `<th class="nombre-tabla table-info border border-info">${nombreCapitalizado}</th>`;
+  nombreTabla.innerHTML = `<th class="table-info border border-info">${tablaId.toUpperCase()}</th>`;
   encabezado.appendChild(nombreTabla);
 
   const encabezadoFila = document.createElement('tr');
@@ -109,6 +109,7 @@ function construirTablaPacientes(tablaId, pacientes) {
   const cuerpo = document.createElement('tbody');
   pacientes.forEach(paciente => {
     const fila = document.createElement('tr');
+    const ultimoIngreso = paciente.ultimoIngreso;
     if (tablaId === 'infantes'){
         fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
                           <td class="border border-info">${paciente.edad}</td>

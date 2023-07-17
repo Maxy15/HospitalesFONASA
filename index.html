@@ -14,27 +14,29 @@
         <hr>
       </div>
       <div class="container text-center text-secondary">
-        <h3 class="mb-3">Elige un hospital para ver su estado actual</h3>
-        <div class="row hospitales-row" id="hospitales"></div>
+        <div id="seleccion-hospitales">
+          <h3 class="my-3">Elige un hospital para ver su estado actual</h3>
+          <div class="row hospitales-row" id="hospitales"></div>
+        </div>
         
-        <div id="consultas" class="mt-3 mb-3 d-none">
-          <h3>Consultas atendiendo</h3>
+        <div id="consultas" class="d-none">
+          <h3 class="my-3">Consultas atendiendo</h3>
           <table id="tabla-consultas" class="table table-striped border border-info"></table>
         </div>
 
-        <div id="pacientes" class="mt-3 mb-3 d-none">
-          <h3>Pacientes en sala de espera</h3>
-          <table id="infantes" class="table table-striped border border-info"></table>
-          <table id="jovenes" class="table table-striped border border-info"></table>
-          <table id="ancianos" class="table table-striped border border-info"></table>
+        <div id="pacientes" class="my-3 d-none">
+          <h3 class="my-3">Pacientes en sala de espera</h3>
+          <table id="infantes" class="my-3 table table-striped border border-info"></table>
+          <table id="jovenes" class="my-3 table table-striped border border-info"></table>
+          <table id="ancianos" class="my-3 table table-striped border border-info"></table>
         </div>
-        <div id="menu-botones" class="mt-3 mb-3 d-none">
+        <div id="menu-botones" class="my-3 d-none">
           <h3>¿Qué acción desea realizar?</h3>
           <div class="d-flex justify-content-center mt-3">
             <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Mayor riesgo</button>
             <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Fumadores urgentes</button>
             <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Mejor consulta</button>
-            <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Más anciano</button>
+            <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Mayor edad</button>
             <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Atender</button>
             <button class="btn btn-info btn-sm mr-2 font-weight-light menu-btn">Liberar</button>
             <button class="btn btn-info btn-sm font-weight-light menu-btn">Optimizar</button>
@@ -43,7 +45,7 @@
       </div>
     </div>
     <div class="modal fade" id="accionModal" tabindex="-1" role="dialog" aria-labelledby="accionModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="accionModalLabel">Resultado</h5>
