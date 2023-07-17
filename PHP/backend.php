@@ -21,8 +21,8 @@
       case 'masAnciano':
         obtenerMasAnciano($connection);
         break;
-      case 'mejorConsulta':
-        obtenerMejorConsulta($connection);
+      case 'fumadoresUrgentes':
+        obtenerFumadoresUrgentes($connection);
         break;
     }
   }

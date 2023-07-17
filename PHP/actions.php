@@ -21,4 +21,17 @@
 		$data = ExecuteQuery($sql, $connection);
 		echo json_encode($data);
 	}
+
+	function obtenerFumadoresUrgentes($connection){
+		$hospitalID = $_GET["hospitalID"];
+		$sql = "SELECT p.nombre, j.riesgo
+						FROM paciente p
+						INNER JOIN joven j ON p.ID = j.pacienteID
+						WHERE p.hospitalID = $hospitalID
+						AND j.fumador = 1
+						ORDER BY j.riesgo DESC
+						LIMIT 5;";
+		$data = ExecuteQuery($sql, $connection);
+		echo json_encode($data);
+	}
 ?>
