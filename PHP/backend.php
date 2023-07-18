@@ -15,8 +15,11 @@
       case 'pacientes':
         obtenerPacientes($connection);
         break;
-      case 'mejorConsulta':
+      case 'consultas':
         obtenerConsultas($connection);
+        break;
+      case 'mejorConsulta':
+        obtenerMejorConsulta($connection);
         break;
       case 'masAnciano':
         obtenerMasAnciano($connection);
