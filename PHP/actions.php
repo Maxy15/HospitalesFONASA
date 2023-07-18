@@ -34,4 +34,44 @@
 		$data = ExecuteQuery($sql, $connection);
 		echo json_encode($data);
 	}
+
+  function obtenerPacientesConMayorRiesgo($connection){
+    $pacienteID = $_GET["pacienteID"];
+    $hospitalID = $_GET["hospitalID"];
+    $sql = "SELECT p.nombre, 
+                   COALESCE(
+                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
+                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
+                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                   ) AS riesgo
+            FROM paciente p
+            WHERE p.ID = $pacienteID
+            AND p.hospitalID = $hospitalID
+            UNION
+            SELECT p.nombre, 
+                   COALESCE(
+                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
+                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
+                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                   ) AS riesgo
+            FROM paciente p
+            WHERE p.hospitalID = $hospitalID AND 
+                COALESCE(
+                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
+                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
+                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                  ) >= (
+                    SELECT COALESCE(
+                      (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
+                      (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
+                      (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                    ) AS riesgo
+                    FROM paciente p
+                    WHERE p.ID = $pacienteID
+                    AND p.hospitalID = $hospitalID
+                  )
+            ORDER BY riesgo DESC;";
+    $data = ExecuteQuery($sql, $connection);
+    echo json_encode($data);
+  }
 ?>

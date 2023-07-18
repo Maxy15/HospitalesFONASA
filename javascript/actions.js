@@ -5,7 +5,59 @@ $('.menu-btn').click(function() {
 
   switch (botonTexto) {
     case 'Mayor riesgo':
-      mostrarModal('Buscar pacientes más riesgosos', 'Holi');
+      var formulario = `<form class="p-3">
+                          <div class="form-group">
+                            <label for="pacienteID">Ingrese ID del paciente</label>
+                            <input type="text" class="form-control border border-info" id="pacienteID">
+                          </div>
+                          <button type="submit" class="btn btn-info font-weight-light">Buscar</button>
+                          <div id="pacientes-riesgosos" class="my-3"></div>
+                        </form>`;
+      mostrarModal('Buscar pacientes más riesgosos', formulario);
+    
+      $('#accionContenido form').submit(function(event) {
+        event.preventDefault();
+        var pacienteID = $('#pacienteID').val();
+        $.ajax({
+          url: './PHP/backend.php',
+          type: 'GET',
+          dataType: 'json',
+          data: { action: 'mayorRiesgo', pacienteID: pacienteID, hospitalID: hospitalID },
+          success: function(data) {
+            var pacientesRiesgososDiv = $('#pacientes-riesgosos');
+            pacientesRiesgososDiv.empty();
+
+            if (data){
+              var pacienteBuscado = data.slice(-1)[0];
+              var otrosPacientes = data.slice(0, -1);
+
+              var titulo = `Pacientes con riesgo mayor que ${pacienteBuscado.nombre} (${pacienteBuscado.riesgo})`;
+              var tituloElemento = $('<p class="font-weight-bold"></p>').text(titulo);
+              pacientesRiesgososDiv.append(tituloElemento);
+              
+              if (otrosPacientes.length > 0) {
+                var lista = $('<ol></ol>');
+                otrosPacientes.forEach(function(paciente) {
+                  var itemLista = $('<li></li>').text(`${paciente.nombre} (${paciente.riesgo})`);
+                  lista.append(itemLista);
+                });
+                pacientesRiesgososDiv.append(lista);
+              } else {
+                var mensaje = 'No hay pacientes con mayor riesgo que el paciente buscado';
+                var mensajeElemento = $('<p></p>').text(mensaje);
+                pacientesRiesgososDiv.append(mensajeElemento);
+              }
+            } else {
+              var mensaje = 'Paciente ingresado no existe';
+              var mensajeElemento = $('<p class="text-info"></p>').text(mensaje);
+              pacientesRiesgososDiv.append(mensajeElemento);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.log('Error al buscar los pacientes con mayor riesgo que el seleccionado: ' + error);
+          }
+        });
+      });
       break;
     case 'Mejor consulta':
       $.ajax({

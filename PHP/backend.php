@@ -18,14 +18,17 @@
       case 'consultas':
         obtenerConsultas($connection);
         break;
+      case 'mayorRiesgo':
+        obtenerPacientesConMayorRiesgo($connection);
+        break;
       case 'mejorConsulta':
         obtenerMejorConsulta($connection);
         break;
-      case 'masAnciano':
-        obtenerMasAnciano($connection);
-        break;
       case 'fumadoresUrgentes':
         obtenerFumadoresUrgentes($connection);
+        break;
+      case 'masAnciano':
+        obtenerMasAnciano($connection);
         break;
     }
   }
