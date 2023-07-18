@@ -61,7 +61,7 @@ function mostrarPacientesHospital(hospitalID){
       construirTablaPacientes('ancianos', ancianos);
     },
     error: function(xhr, status, error){
-      console.log('Error al obtener los detalles del hospital: ' + error);
+      console.log('Error al obtener los detalles de los pacientes: ' + error);
     }
   });
 }
@@ -172,7 +172,7 @@ function mostrarConsultasHospital(hospitalID){
       tabla.appendChild(cuerpo);
     },
     error: function(xhr, status, error){
-      console.log('Error al obtener los detalles del hospital: ' + error);
+      console.log('Error al obtener los detalles de las consultas: ' + error);
     }
   });
 }

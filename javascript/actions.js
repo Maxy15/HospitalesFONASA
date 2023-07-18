@@ -1,71 +1,76 @@
-$(document).ready(function(){  
-  $('.menu-btn').click(function() {
-    var botonTexto = $(this).text();
-    var hospitalID = localStorage.getItem('hospitalID');
+$('.menu-btn').click(function() {
+  var botonTexto = $(this).text().trim();
+  var hospitalID = localStorage.getItem('hospitalID');
+  var modalContenido = '';
 
-    switch(botonTexto){
-      case 'Mayor edad':
-        $.ajax({
-          url: './PHP/backend.php',
-          type: 'GET',
-          dataType: 'json',
-          data: { action: 'masAnciano', hospitalID: hospitalID },
-          success: function(data){
-            $('#accionModalLabel').text('Paciente más anciano');
-            $('#accionContenido').text(`${data[0].nombre} con ${data[0].edad} años`)
-          },
-          error: function(xhr, status, error){
-            console.log('Error al obtener los detalles del hospital: ' + error);
+  switch (botonTexto) {
+    case 'Mayor edad':
+      $.ajax({
+        url: './PHP/backend.php',
+        type: 'GET',
+        dataType: 'json',
+        data: { action: 'masAnciano', hospitalID: hospitalID },
+        success: function(data) {
+          modalContenido = `${data[0].nombre} con ${data[0].edad} años`;
+          mostrarModal('Paciente anciano con más edad', modalContenido);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error al buscar al paciente más anciano: ' + error);
+        }
+      });
+      break;
+    case 'Mejor consulta':
+      $.ajax({
+        url: './PHP/backend.php',
+        type: 'GET',
+        dataType: 'json',
+        data: { action: 'mejorConsulta', hospitalID: hospitalID },
+        success: function(data) {
+          if (data && data.length > 0) {
+            modalContenido = `Consulta Nº${data[0].ID} [Dr(a) ${data[0].nombreEspecialista}] con ${data[0].cantidadPacientes} pacientes atendidos`;
+          } else {
+            modalContenido = 'No se encontraron consultas registradas.';
           }
-        });
-      
-      case 'Mejor consulta':
-        $.ajax({
-          url: './PHP/backend.php',
-          type: 'GET',
-          dataType: 'json',
-          data: { action: 'mejorConsulta', hospitalID: hospitalID },
-          success: function(data){
-            $('#accionModalLabel').text('Consulta que ha atendido más pacientes');
-            $('#accionContenido').text(`Consulta Nº${data[0].ID} [Dr(a) ${data[0].nombreEspecialista}] 
-                                        con ${data[0].cantidadPacientes} pacientes atendidos`);
-          },
-          error: function(xhr, status, error){
-            console.log('Error al obtener los detalles del hospital: ' + error);
+          mostrarModal('Consulta con más pacientes atendidos', modalContenido);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error al buscar la mejor consulta: ' + error);
+        }
+      });
+      break;
+    case 'Fumadores urgentes':
+      $.ajax({
+        url: './PHP/backend.php',
+        type: 'GET',
+        dataType: 'json',
+        data: { action: 'fumadoresUrgentes', hospitalID: hospitalID },
+        success: function(data) {
+          if (data && data.length > 0) {
+            const lista = $('<ol></ol>');
+            data.forEach((fumador) => {
+              const itemLista = $('<li></li>').text(`${fumador.nombre} con riesgo ${fumador.riesgo}`);
+              lista.append(itemLista);
+            });
+            modalContenido = lista;
+          } else {
+            modalContenido = 'No hay pacientes fumadores en la sala de espera';
           }
-        });
-
-      case 'Fumadores urgentes':
-        $.ajax({
-          url: './PHP/backend.php',
-          type: 'GET',
-          dataType: 'json',
-          data: { action: 'fumadoresUrgentes', hospitalID: hospitalID },
-          success: function(data){
-            $('#accionModalLabel').text('Fumadores que necesitan atención urgente');
-            $('#accionContenido').text(`Lista`);
-            if (data && data.length > 0) {
-              const lista = $('<ol></ol>');
-              data.forEach((fumador) => {
-                const itemLista = $('<li></li>').text(`${fumador.nombre} con riesgo ${fumador.riesgo}`);
-                lista.append(itemLista);
-              });
-              $('#accionContenido').empty().append(lista);
-            } else {
-              const mensaje = $('<p></p>').text('No hay pacientes fumadores en la sala de espera');
-              $('#accionContenido').empty().append(mensaje);
-            }
-          },
-          error: function(xhr, status, error){
-            console.log('Error al obtener los detalles del hospital: ' + error);
-          }
-        });
-
-      default:
-        $('#accionModalLabel').text(botonTexto);
-        $('#accionContenido').text('Se ha hecho clic en el botón "' + botonTexto + '"');
-    }
-
-    $('#accionModal').modal('show');
-  });
+          mostrarModal('Fumadores que necesitan atención urgente', modalContenido);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error al obtener los fumadores urgentes: ' + error);
+        }
+      });
+      break;
+    default:
+      modalContenido = 'Se ha hecho clic en el botón "' + botonTexto + '"';
+      mostrarModal(botonTexto, modalContenido);
+      break;
+  }
 });
+
+function mostrarModal(titulo, contenido) {
+  $('#accionModalLabel').text(titulo);
+  $('#accionContenido').html(contenido);
+  $('#accionModal').modal('show');
+}
