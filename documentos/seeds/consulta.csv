@@ -1,0 +1,7 @@
+"ID","hospitalID","nombreEspecialista","tipoConsulta","estado","cantidadPacientes"
+"1","1","Felix Molinero","Pediatría","En espera de paciente","10"
+"2","1","María Salazar","General","Ocupada","2"
+"3","1","Ivan Pellicer","Urgencias","Ocupada","5"
+"4","2","Gertrudis Alves","Urgencias","Ocupada","6"
+"5","2","María Arellano","General","Ocupada","1"
+"6","2","Juan Córdoba","Pediatría","Ocupada","9"
