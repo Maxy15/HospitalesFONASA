@@ -8,6 +8,7 @@
   function obtenerPacientes($connection){
     $hospitalID = $_GET["hospitalID"];
     $sql = "SELECT
+              p.ID,
               p.nombre,
               p.edad,
               p.estatura,
@@ -28,6 +29,7 @@
             WHERE p.hospitalID = $hospitalID
             UNION
             (SELECT
+              p.ID,
               p.nombre,
               p.edad,
               p.estatura,
@@ -48,6 +50,7 @@
             WHERE p.hospitalID = $hospitalID)
             UNION
             (SELECT
+              p.ID,
               p.nombre,
               p.edad,
               p.estatura,

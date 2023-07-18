@@ -4,20 +4,8 @@ $('.menu-btn').click(function() {
   var modalContenido = '';
 
   switch (botonTexto) {
-    case 'Mayor edad':
-      $.ajax({
-        url: './PHP/backend.php',
-        type: 'GET',
-        dataType: 'json',
-        data: { action: 'masAnciano', hospitalID: hospitalID },
-        success: function(data) {
-          modalContenido = `${data[0].nombre} con ${data[0].edad} años`;
-          mostrarModal('Paciente anciano con más edad', modalContenido);
-        },
-        error: function(xhr, status, error) {
-          console.log('Error al buscar al paciente más anciano: ' + error);
-        }
-      });
+    case 'Mayor riesgo':
+      mostrarModal('Buscar pacientes más riesgosos', 'Holi');
       break;
     case 'Mejor consulta':
       $.ajax({
@@ -59,6 +47,21 @@ $('.menu-btn').click(function() {
         },
         error: function(xhr, status, error) {
           console.log('Error al obtener los fumadores urgentes: ' + error);
+        }
+      });
+      break;
+    case 'Mayor edad':
+      $.ajax({
+        url: './PHP/backend.php',
+        type: 'GET',
+        dataType: 'json',
+        data: { action: 'masAnciano', hospitalID: hospitalID },
+        success: function(data) {
+          modalContenido = `${data[0].nombre} con ${data[0].edad} años`;
+          mostrarModal('Paciente anciano con más edad', modalContenido);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error al buscar al paciente más anciano: ' + error);
         }
       });
       break;

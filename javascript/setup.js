@@ -78,7 +78,8 @@ function construirTablaPacientes(tablaId, pacientes) {
 
   const encabezadoFila = document.createElement('tr');
   if (tablaId === 'infantes'){
-    encabezadoFila.innerHTML = `<th class="table-info border border-info">Nombre</th>
+    encabezadoFila.innerHTML = `<th class="table-info border border-info">ID</th>
+                                <th class="table-info border border-info">Nombre</th>
                                 <th class="table-info border border-info">Edad</th>
                                 <th class="table-info border border-info">Peso - estatura</th>
                                 <th class="table-info border border-info">Prioridad</th>
@@ -86,7 +87,8 @@ function construirTablaPacientes(tablaId, pacientes) {
                                 <th class="table-info border border-info">Ingreso</th>`;
   }
   if (tablaId === 'jovenes'){
-    encabezadoFila.innerHTML = `<th class="table-info border border-info">Nombre</th>
+    encabezadoFila.innerHTML = `<th class="table-info border border-info">ID</th>
+                                <th class="table-info border border-info">Nombre</th>
                                 <th class="table-info border border-info">Edad</th>
                                 <th class="table-info border border-info">Fumador</th>
                                 <th class="table-info border border-info">Años fumando</th>
@@ -95,7 +97,8 @@ function construirTablaPacientes(tablaId, pacientes) {
                                 <th class="table-info border border-info">Ingreso</th>`;
   }
   if (tablaId === 'ancianos'){
-    encabezadoFila.innerHTML = `<th class="table-info border border-info">Nombre</th>
+    encabezadoFila.innerHTML = `<th class="table-info border border-info">ID</th>
+                                <th class="table-info border border-info">Nombre</th>
                                 <th class="table-info border border-info">Edad</th>
                                 <th class="table-info border border-info">Dieta</th>
                                 <th class="table-info border border-info">Prioridad</th>
@@ -111,29 +114,32 @@ function construirTablaPacientes(tablaId, pacientes) {
     const fila = document.createElement('tr');
     const ultimoIngreso = paciente.ultimoIngreso;
     if (tablaId === 'infantes'){
-        fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
+        fila.innerHTML = `<td class="border border-info">${paciente.ID}</td>
+                          <td class="border border-info">${paciente.nombre}</td>
                           <td class="border border-info">${paciente.edad}</td>
                           <td class="border border-info">${paciente.infantePesoEstatura}</td>
                           <td class="border border-info">${paciente.infantePrioridad}</td>
                           <td class="border border-info">${paciente.infanteRiesgo}</td>
-                          <td class="border border-info">${paciente.ultimoIngreso}</td>`;
+                          <td class="border border-info">${moment(paciente.ultimoIngreso).format('DD/MM/YYYY HH:mm:ss')}</td>`;
     }
     if (tablaId === 'jovenes'){
-        fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
+        fila.innerHTML = `<td class="border border-info">${paciente.ID}</td>
+                          <td class="border border-info">${paciente.nombre}</td>
                           <td class="border border-info">${paciente.edad}</td>
                           <td class="border border-info">${paciente.jovenFumador === '1' ? 'Si' : 'No'}</td>
                           <td class="border border-info">${paciente.jovenAñosFumador}</td>
                           <td class="border border-info">${paciente.jovenPrioridad}</td>
                           <td class="border border-info">${paciente.jovenRiesgo}</td>
-                          <td class="border border-info">${paciente.ultimoIngreso}</td>`;
+                          <td class="border border-info">${moment(paciente.ultimoIngreso).format('DD/MM/YYYY HH:mm:ss')}</td>`;
     }
     if (tablaId === 'ancianos'){
-      fila.innerHTML = `<td class="border border-info">${paciente.nombre}</td>
+      fila.innerHTML = `<td class="border border-info">${paciente.ID}</td>
+                        <td class="border border-info">${paciente.nombre}</td>
                         <td class="border border-info">${paciente.edad}</td>
                         <td class="border border-info">${paciente.ancianoDieta === '1' ? 'Si' : 'No'}</td>
                         <td class="border border-info">${paciente.ancianoPrioridad}</td>
                         <td class="border border-info">${paciente.ancianoRiesgo}</td>
-                        <td class="border border-info">${paciente.ultimoIngreso}</td>`;
+                        <td class="border border-info">${moment(paciente.ultimoIngreso).format('DD/MM/YYYY HH:mm:ss')}</td>`;
   }
     
     cuerpo.appendChild(fila);
