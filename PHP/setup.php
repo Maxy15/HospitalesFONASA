@@ -11,8 +11,6 @@
               p.ID,
               p.nombre,
               p.edad,
-              p.estatura,
-              p.peso,
               p.ultimoIngreso,
               'Infante' AS categoria,
               i.pesoEstatura AS infantePesoEstatura,
@@ -26,14 +24,12 @@
               NULL AS ancianoPrioridad,
               NULL AS ancianoRiesgo
             FROM paciente p INNER JOIN infante i ON p.ID = i.pacienteID
-            WHERE p.hospitalID = $hospitalID
+            WHERE p.hospitalID = $hospitalID AND p.estado = 'En sala de espera'
             UNION
             (SELECT
               p.ID,
               p.nombre,
               p.edad,
-              p.estatura,
-              p.peso,
               p.ultimoIngreso,
               'Joven' AS categoria,
               NULL AS infantePesoEstatura,
@@ -47,14 +43,12 @@
               NULL AS ancianoPrioridad,
               NULL AS ancianoRiesgo
             FROM paciente p INNER JOIN joven j ON p.ID = j.pacienteID
-            WHERE p.hospitalID = $hospitalID)
+            WHERE p.hospitalID = $hospitalID AND p.estado = 'En sala de espera')
             UNION
             (SELECT
               p.ID,
               p.nombre,
               p.edad,
-              p.estatura,
-              p.peso,
               p.ultimoIngreso,
               'Anciano' AS categoria,
               NULL AS infantePesoEstatura,
@@ -68,7 +62,7 @@
               a.prioridad AS ancianoPrioridad,
               a.riesgo AS ancianoRiesgo
             FROM paciente p INNER JOIN anciano a ON p.ID = a.pacienteID
-            WHERE p.hospitalID = $hospitalID)
+            WHERE p.hospitalID = $hospitalID AND p.estado = 'En sala de espera')
             ORDER BY infantePrioridad DESC, jovenPrioridad DESC, ancianoPrioridad DESC, ultimoIngreso ASC;";
     $data = ExecuteQuery($sql, $connection);
     echo json_encode($data);

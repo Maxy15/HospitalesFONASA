@@ -9,6 +9,7 @@
     $action = $_GET["action"];
 
     switch ($action){
+      // Setup
       case 'hospitales':
         obtenerHospitales($connection);
         break;
@@ -18,6 +19,7 @@
       case 'consultas':
         obtenerConsultas($connection);
         break;
+      // Actions
       case 'mayorRiesgo':
         obtenerPacientesConMayorRiesgo($connection);
         break;
@@ -29,6 +31,9 @@
         break;
       case 'masAnciano':
         obtenerMasAnciano($connection);
+        break;
+      case 'liberarConsultas':
+        liberarConsultas($connection);
         break;
     }
   }

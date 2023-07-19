@@ -117,6 +117,28 @@ $('.menu-btn').click(function() {
         }
       });
       break;
+    case 'Liberar consultas':
+      modalContenido = `<div class="p-3">
+                          <p>¿Estás segur@ de actualizar el estado a "En espera de paciente" en todas las consultas?</p>
+                          <button id="liberar-consultas" class="btn btn-info font-weight-light">Aceptar</button>
+                        </div>`;
+      mostrarModal(botonTexto, modalContenido);
+      $('#liberar-consultas').click(function(){
+        $.ajax({
+          url: './PHP/backend.php',
+          type: 'GET',
+          dataType: 'json',
+          data: { action: 'liberarConsultas', hospitalID: hospitalID },
+          success: function(data) {
+            console.log(data);
+            location.reload();
+          },
+          error: function(xhr, status, error) {
+            console.log('Error al buscar al paciente más anciano: ' + error);
+          }
+        });
+      })
+      break;
     default:
       modalContenido = 'Se ha hecho clic en el botón "' + botonTexto + '"';
       mostrarModal(botonTexto, modalContenido);

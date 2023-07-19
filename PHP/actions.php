@@ -74,4 +74,13 @@
     $data = ExecuteQuery($sql, $connection);
     echo json_encode($data);
   }
+
+  function liberarConsultas($connection){
+		$hospitalID = $_GET["hospitalID"];
+		$sql = "UPDATE consulta 
+            SET estado = 'En espera de paciente'
+            WHERE hospitalID = $hospitalID;";
+		$result = Execute($sql, $connection);
+		echo json_encode($result);
+	}
 ?>
