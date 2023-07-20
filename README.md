@@ -34,12 +34,12 @@ HospitalesFONASA
 
 ## Aspectos generales
 La aplicación permite seleccionar un hospital, para posteriormente mostrar los pacientes en la sala de espera y las consultas asociados a ese hospital. Al final, muestra un menú de botones, en donde cada botón corresponde a una de las funcionalidades pedidas. Se implementaron las siguientes funcionalidades:
-    * **Mayor riesgo:** Muestra los pacientes que tienen un riesgo mayor al del paciente, identificado por el ID a través de un formulario, que se encuentren en la sala de espera.
-    * **Fumadores urgentes:** Muestra los primeros 5 pacientes fumadores que tengan un riesgo mayor.
-    * **Mejor consulta:** Muestra la consulta que ha atendido más pacientes.  
-    * **Mayor edad:** Muestra el paciente anciano con mayor edad en la sala de espera. 
-    * **Liberar consultas:** Actualiza el estado de todas las consultas asociadas al hospital seleccionado a *En espera de paciente*.
-    * **Atender:** Selecciona al paciente que tiene más prioridad de la sala de espera y le asigna la consulta que le corresponde según sus características. Si hay consulta disponible, aparece en el modal de respuesta el tipo de la consulta y su ID. De lo contrario, se muestra el mensaje de que no es posible atender a un paciente en estos momentos.
+* **Mayor riesgo:** Muestra los pacientes que tienen un riesgo mayor al del paciente, identificado por el ID a través de un formulario, que se encuentren en la sala de espera.
+* **Fumadores urgentes:** Muestra los primeros 5 pacientes fumadores que tengan un riesgo mayor.
+* **Mejor consulta:** Muestra la consulta que ha atendido más pacientes.  
+* **Mayor edad:** Muestra el paciente anciano con mayor edad en la sala de espera. 
+* **Liberar consultas:** Actualiza el estado de todas las consultas asociadas al hospital seleccionado a *En espera de paciente*.
+* **Atender:** Selecciona al paciente que tiene más prioridad de la sala de espera y le asigna la consulta que le corresponde según sus características. Si hay consulta disponible, aparece en el modal de respuesta el tipo de la consulta y su ID. De lo contrario, se muestra el mensaje de que no es posible atender a un paciente en estos momentos.
 
 Tanto los archivos JS como PHP siguen este orden para desarrollar cada una de las funcionalidades. 
 
@@ -62,5 +62,6 @@ En la carpeta documentos se pueden encontrar las *seeds*, en formato CSV, de eje
 * El ID del paciente se utilizó como número de historia clínica.
 * Sólo se consideró la sala de espera y no se implementó la funcionalidad *Optimizar*
 * Casi en la totalidad del proyecto se usó el camelCase (estilo Javascript) para los nombres de variables y funciones.
+* La librería Moment es usada para manejar los formatos de las fechas y horas de ingreso de los pacientes
 
 Gracias por el leer :smile_cat:
