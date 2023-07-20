@@ -5,6 +5,7 @@
 						FROM paciente p
 						INNER JOIN anciano a ON p.ID = a.pacienteID
 						WHERE p.hospitalID = $hospitalID
+            AND p.estado = 'En sala de espera'
 						ORDER BY p.edad DESC
 						LIMIT 1;";
 		$data = ExecuteQuery($sql, $connection);
@@ -28,6 +29,7 @@
 						FROM paciente p
 						INNER JOIN joven j ON p.ID = j.pacienteID
 						WHERE p.hospitalID = $hospitalID
+            AND p.estado = 'En sala de espera'
 						AND j.fumador = 1
 						ORDER BY j.riesgo DESC
 						LIMIT 5;";
@@ -40,35 +42,37 @@
     $hospitalID = $_GET["hospitalID"];
     $sql = "SELECT p.nombre, 
                    COALESCE(
-                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
-                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
-                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID AND p.estado = 'En sala de espera')
                    ) AS riesgo
             FROM paciente p
             WHERE p.ID = $pacienteID
             AND p.hospitalID = $hospitalID
+            AND p.estado = 'En sala de espera'
             UNION
             SELECT p.nombre, 
                    COALESCE(
-                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
-                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
-                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID AND p.estado = 'En sala de espera')
                    ) AS riesgo
             FROM paciente p
             WHERE p.hospitalID = $hospitalID AND 
                 COALESCE(
-                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
-                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
-                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                    (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                    (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                    (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID AND p.estado = 'En sala de espera')
                   ) >= (
                     SELECT COALESCE(
-                      (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID), 
-                      (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID), 
-                      (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID)
+                      (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                      (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
+                      (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID AND p.estado = 'En sala de espera')
                     ) AS riesgo
                     FROM paciente p
                     WHERE p.ID = $pacienteID
                     AND p.hospitalID = $hospitalID
+                    AND p.estado = 'En sala de espera'
                   )
             ORDER BY riesgo DESC;";
     $data = ExecuteQuery($sql, $connection);
@@ -82,5 +86,87 @@
             WHERE hospitalID = $hospitalID;";
 		$result = Execute($sql, $connection);
 		echo json_encode($result);
+	}
+
+  function atenderPaciente($connection){
+    $hospitalID = $_GET["hospitalID"];
+    
+    $sql = "SELECT p.ID, p.nombre,
+            CASE
+              WHEN (SELECT i.prioridad FROM infante i WHERE i.pacienteID = p.ID) IS NOT NULL THEN 'Infante'
+              WHEN (SELECT j.prioridad FROM joven j WHERE j.pacienteID = p.ID) IS NOT NULL THEN 'Joven'
+              WHEN (SELECT a.prioridad FROM anciano a WHERE a.pacienteID = p.ID) IS NOT NULL THEN 'Anciano'
+              ELSE 'Tipo desconocido'
+            END AS tipo,
+            COALESCE(
+              (SELECT i.prioridad FROM infante i WHERE i.pacienteID = p.ID),
+              (SELECT j.prioridad FROM joven j WHERE j.pacienteID = p.ID),
+              (SELECT a.prioridad FROM anciano a WHERE a.pacienteID = p.ID)
+            ) AS prioridad
+            FROM paciente p
+            WHERE p.estado = 'En sala de espera'
+            AND p.hospitalID = $hospitalID
+            ORDER BY prioridad DESC
+            LIMIT 1;";
+    
+    $result = ExecuteQuery($sql, $connection);
+    $paciente = $result[0];
+
+    if (!$paciente) {
+      $response = array('nombre' => '', 'tipoConsulta' => '', 'consultaID' => '');
+    } else {
+      $pacienteID = $paciente['ID'];
+      $nombrePaciente = $paciente['nombre'];
+      $tipoPaciente = $paciente['tipo'];
+      $prioridad = $paciente['prioridad'];
+
+      if ($tipoPaciente === 'Infante' && $prioridad <= 4) {
+        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
+                 FROM consulta
+                 WHERE hospitalID = $hospitalID
+                 AND tipoConsulta = 'Pediatría'
+                 AND estado = 'En espera de paciente'
+                 LIMIT 1;";
+      } elseif ($tipoPaciente !== 'Infante' && $prioridad > 4) {
+        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
+                 FROM consulta
+                 WHERE hospitalID = $hospitalID
+                 AND (tipoConsulta = 'Urgencias' OR tipoConsulta = 'General')
+                 AND estado = 'En espera de paciente'
+                 LIMIT 1;";
+      } elseif ($tipoPaciente === 'Infante' && $prioridad > 4) {
+        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
+                 FROM consulta
+                 WHERE hospitalID = $hospitalID
+                 AND tipoConsulta = 'Urgencias'
+                 AND estado = 'En espera de paciente'
+                 LIMIT 1;";
+      } else {
+        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
+                 FROM consulta
+                 WHERE hospitalID = $hospitalID
+                 AND tipoConsulta = 'General'
+                 AND estado = 'En espera de paciente'
+                 LIMIT 1;";
+      }
+
+      $data = ExecuteQuery($sql2, $connection);
+
+      if (!$data || count($data) === 0) {
+        $response = array('nombre' => '', 'tipoConsulta' => '', 'consultaID' => '');
+      } else {
+        $consultaID = $data[0]['ID'];
+        $tipoConsulta = $data[0]['tipoConsulta'];
+        $cantidadPacientes = $data[0]['cantidadPacientes'] + 1;
+
+        $sqlUpdatePaciente = "UPDATE paciente SET estado = 'Atendido' WHERE ID = $pacienteID;";
+        $sqlUpdateConsulta = "UPDATE consulta SET estado = 'Ocupada', cantidadPacientes = $cantidadPacientes WHERE ID = $consultaID;";
+        Execute($sqlUpdatePaciente, $connection);
+        Execute($sqlUpdateConsulta, $connection);
+
+        $response = array('nombre' => $nombrePaciente, 'tipoConsulta' => $tipoConsulta, 'consultaID' => $consultaID);
+      }              
+    }
+    echo json_encode($response);
 	}
 ?>

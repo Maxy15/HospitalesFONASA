@@ -35,6 +35,9 @@
       case 'liberarConsultas':
         liberarConsultas($connection);
         break;
+      case 'atenderPaciente':
+        atenderPaciente($connection);
+        break;
     }
   }
   mysqli_close($connection);

@@ -139,9 +139,33 @@ $('.menu-btn').click(function() {
         });
       })
       break;
-    default:
-      modalContenido = 'Se ha hecho clic en el botón "' + botonTexto + '"';
-      mostrarModal(botonTexto, modalContenido);
+    case 'Atender paciente':
+      $.ajax({
+        url: './PHP/backend.php',
+        type: 'GET',
+        dataType: 'json',
+        data: { action: 'atenderPaciente', hospitalID: hospitalID },
+        success: function(data) {
+          console.log(data);
+          if (data.nombre) {
+            modalContenido = `
+              <div class="p-3">
+                <p>Paciente ${data.nombre} está siendo atendid@ en la consulta Nº${data.consultaID} de tipo ${data.tipoConsulta}</p>
+                <button id="btn-entendido" class="btn btn-info font-weight-light">Entendido</button>
+              </div>`;
+            $('#btn-entendido').click(function(){
+              console.log('yeees!');
+              location.reload();
+            });
+          } else {
+            modalContenido = 'No se puede atender pacientes en este momento';
+          }
+          mostrarModal(botonTexto, modalContenido);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error al intentar atender paciente: ' + error);
+        }
+      });
       break;
   }
 });
