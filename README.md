@@ -2,6 +2,7 @@
 
 Sitio web *Hospitales FONASA* cuyo *frontend* fue desarrollado con HTML, CSS, Javascript, JQuery, Bootsrap y la librería Moment. Por otro lado, el *backend* fue creado con PHP y la base de datos con MySQL, además de la ayuda de XAMPP para tener acceso a Apache y phpMyAdmin. La estructura de los archivos y carpetas es la siguiente:
 
+```
 ├── HospitalesFONASA
 │   ├── index.html
 │   ├── README.md
@@ -29,6 +30,7 @@ Sitio web *Hospitales FONASA* cuyo *frontend* fue desarrollado con HTML, CSS, Ja
 │   |   ├── setup.php
 │   ├── styles
 │   |   ├── styles.css
+```
 
 ## Aspectos generales
 La aplicación permite seleccionar un hospital, para posteriormente mostrar los pacientes en la sala de espera y las consultas asociados a ese hospital. Al final, muestra un menú de botones, en donde cada botón corresponde a una de las funcionalidades pedidas. Se implementaron las siguientes funcionalidades:
