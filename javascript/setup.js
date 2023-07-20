@@ -8,12 +8,12 @@ function obtenerHospitales(){
     type: 'GET',
     dataType: 'json',
     data: { action: 'hospitales' },
-    success: function(data) {
+    success: function(data){
       const hospitalesDiv = $('#hospitales');
       var rowDiv = $('<div class="row justify-content-center"></div>');
 
-      for (var key in data) {
-        if (data.hasOwnProperty(key)) {
+      for (var key in data){
+        if (data.hasOwnProperty(key)){
           var hospital = data[key];
           var cardHtml = `
             <div id="${hospital.ID}" class="col-md-6">
@@ -25,7 +25,7 @@ function obtenerHospitales(){
           `;
 
           var cardElement = $(cardHtml);
-          cardElement.click((function(hospitalID) {
+          cardElement.click((function(hospitalID){
             return function() {
               mostrarPacientesHospital(hospitalID);
               mostrarConsultasHospital(hospitalID);
@@ -66,10 +66,9 @@ function mostrarPacientesHospital(hospitalID){
   });
 }
 
-function construirTablaPacientes(tablaId, pacientes) {
+function construirTablaPacientes(tablaId, pacientes){
   const tabla = document.getElementById(tablaId);
   tabla.innerHTML = '';
-  // Crear el encabezado de la tabla
   const encabezado = document.createElement('thead');
 
   const nombreTabla = document.createElement('tr');
@@ -108,11 +107,9 @@ function construirTablaPacientes(tablaId, pacientes) {
   encabezado.appendChild(encabezadoFila);
   tabla.appendChild(encabezado);
 
-  // Crear el cuerpo de la tabla
   const cuerpo = document.createElement('tbody');
   pacientes.forEach(paciente => {
     const fila = document.createElement('tr');
-    const ultimoIngreso = paciente.ultimoIngreso;
     if (tablaId === 'infantes'){
         fila.innerHTML = `<td class="border border-info">${paciente.ID}</td>
                           <td class="border border-info">${paciente.nombre}</td>

@@ -19,6 +19,7 @@
       case 'consultas':
         obtenerConsultas($connection);
         break;
+
       // Actions
       case 'mayorRiesgo':
         obtenerPacientesConMayorRiesgo($connection);

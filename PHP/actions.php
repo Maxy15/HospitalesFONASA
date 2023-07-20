@@ -58,7 +58,8 @@
                     (SELECT a.riesgo FROM anciano a WHERE a.pacienteID = p.ID AND p.estado = 'En sala de espera')
                    ) AS riesgo
             FROM paciente p
-            WHERE p.hospitalID = $hospitalID AND 
+            WHERE p.hospitalID = $hospitalID AND
+                  p.estado = 'En sala de espera' AND 
                 COALESCE(
                     (SELECT i.riesgo FROM infante i WHERE i.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
                     (SELECT j.riesgo FROM joven j WHERE j.pacienteID = p.ID AND p.estado = 'En sala de espera'), 
@@ -112,7 +113,7 @@
     $result = ExecuteQuery($sql, $connection);
     $paciente = $result[0];
 
-    if (!$paciente) {
+    if (!$paciente){
       $response = array('nombre' => '', 'tipoConsulta' => '', 'consultaID' => '');
     } else {
       $pacienteID = $paciente['ID'];
@@ -120,39 +121,26 @@
       $tipoPaciente = $paciente['tipo'];
       $prioridad = $paciente['prioridad'];
 
-      if ($tipoPaciente === 'Infante' && $prioridad <= 4) {
-        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
-                 FROM consulta
-                 WHERE hospitalID = $hospitalID
-                 AND tipoConsulta = 'Pediatría'
-                 AND estado = 'En espera de paciente'
-                 LIMIT 1;";
-      } elseif ($tipoPaciente !== 'Infante' && $prioridad > 4) {
-        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
-                 FROM consulta
-                 WHERE hospitalID = $hospitalID
-                 AND (tipoConsulta = 'Urgencias' OR tipoConsulta = 'General')
-                 AND estado = 'En espera de paciente'
-                 LIMIT 1;";
-      } elseif ($tipoPaciente === 'Infante' && $prioridad > 4) {
-        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
-                 FROM consulta
-                 WHERE hospitalID = $hospitalID
-                 AND tipoConsulta = 'Urgencias'
-                 AND estado = 'En espera de paciente'
-                 LIMIT 1;";
-      } else {
-        $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
-                 FROM consulta
-                 WHERE hospitalID = $hospitalID
-                 AND tipoConsulta = 'General'
-                 AND estado = 'En espera de paciente'
-                 LIMIT 1;";
+      $tipoConsulta = 'General';
+      $tipoCondicion = "AND (tipoConsulta = 'Urgencias' OR tipoConsulta = 'General')";
+      if ($tipoPaciente === 'Infante' && $prioridad <= 4){
+        $tipoConsulta = 'Pediatría';
+        $tipoCondicion = "AND tipoConsulta = 'Pediatría'";
+      } elseif ($prioridad > 4) {
+        $tipoConsulta = 'Urgencias';
+        $tipoCondicion = "AND tipoConsulta = 'Urgencias'";
       }
+
+      $sql2 = "SELECT ID, tipoConsulta, cantidadPacientes
+                FROM consulta
+                WHERE hospitalID = $hospitalID
+                $tipoCondicion
+                AND estado = 'En espera de paciente'
+                LIMIT 1;";
 
       $data = ExecuteQuery($sql2, $connection);
 
-      if (!$data || count($data) === 0) {
+      if (!$data || count($data) === 0){
         $response = array('nombre' => '', 'tipoConsulta' => '', 'consultaID' => '');
       } else {
         $consultaID = $data[0]['ID'];

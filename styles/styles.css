@@ -1,30 +1,30 @@
-html, body {
+html, body{
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-.wrapper {
+.wrapper{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.content {
+.content{
   flex-grow: 1;
 }
 
-.card {
+.card{
   width: 25rem;
   padding: 1.5rem;
   border: solid #5bc0de 1px;
 }
 
-.card:hover {
+.card:hover{
   border: dashed #5bc0de 1px;
 }
   
-.card-img-top {
+.card-img-top{
   max-height: 200px;
   object-fit: cover;
 }
@@ -33,7 +33,7 @@ html, body {
   font-size: larger;
 }
 
-.hospitales-row {
+.hospitales-row{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

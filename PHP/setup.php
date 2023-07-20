@@ -1,5 +1,5 @@
 <?php
-  function obtenerHospitales($connection) {
+  function obtenerHospitales($connection){
     $sql = "SELECT * FROM hospital";
     $data = ExecuteQuery($sql, $connection);
     echo json_encode($data);
@@ -68,7 +68,7 @@
     echo json_encode($data);
   }
 
-  function obtenerConsultas($connection) {
+  function obtenerConsultas($connection){
     $hospitalID = $_GET["hospitalID"];
     $sql = "SELECT * FROM consulta WHERE hospitalID = $hospitalID";
     $data = ExecuteQuery($sql, $connection);

@@ -1,71 +1,71 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>Hospitales FONASA</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./styles/styles.css">
-</head>
-<body>
-  <div class="wrapper">
-    <div class="content">
-      <div class="bg-info">
-        <h1 class="text-white text-center pt-2">¡Bienvenid@s a Hospitales FONASA!</h1>
-        <hr>
-      </div>
-      <div class="container text-center text-secondary">
-        <div id="seleccion-hospitales">
-          <h3 class="my-3">Elige un hospital para ver su estado actual</h3>
-          <div class="row hospitales-row" id="hospitales"></div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hospitales FONASA</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/styles.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content">
+        <div class="bg-info">
+          <h1 class="text-white text-center pt-2">¡Bienvenid@s a Hospitales FONASA!</h1>
+          <hr>
         </div>
-        
-        <div id="consultas" class="d-none">
-          <h3 class="my-3">Consultas atendiendo</h3>
-          <table id="tabla-consultas" class="table table-striped border border-info"></table>
-        </div>
+        <div class="container text-center text-secondary">
+          <div id="seleccion-hospitales">
+            <h3 class="my-3">Elige un hospital para ver su estado actual</h3>
+            <div class="row hospitales-row" id="hospitales"></div>
+          </div>
+          
+          <div id="consultas" class="d-none">
+            <h3 class="my-3">Consultas atendiendo</h3>
+            <table id="tabla-consultas" class="table table-striped border border-info"></table>
+          </div>
 
-        <div id="pacientes" class="my-3 d-none">
-          <h3 class="my-3">Pacientes en sala de espera</h3>
-          <table id="infantes" class="my-3 table table-striped border border-info"></table>
-          <table id="jovenes" class="my-3 table table-striped border border-info"></table>
-          <table id="ancianos" class="my-3 table table-striped border border-info"></table>
-        </div>
-        <div id="menu-botones" class="my-3 d-none">
-          <h3>¿Qué acción desea realizar?</h3>
-          <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Mayor riesgo</button>
-            <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Fumadores urgentes</button>
-            <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Mejor consulta</button>
-            <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Mayor edad</button>
-            <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Liberar consultas</button>
-            <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Atender paciente</button>
+          <div id="pacientes" class="my-3 d-none">
+            <h3 class="my-3">Pacientes en sala de espera</h3>
+            <table id="infantes" class="my-3 table table-striped border border-info"></table>
+            <table id="jovenes" class="my-3 table table-striped border border-info"></table>
+            <table id="ancianos" class="my-3 table table-striped border border-info"></table>
+          </div>
+          <div id="menu-botones" class="my-3 d-none">
+            <h3>¿Qué acción desea realizar?</h3>
+            <div class="d-flex justify-content-center mt-3">
+              <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Mayor riesgo</button>
+              <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Fumadores urgentes</button>
+              <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Mejor consulta</button>
+              <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Mayor edad</button>
+              <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Liberar consultas</button>
+              <button class="btn btn-outline-info btn-sm mr-2 font-weight-light menu-btn">Atender paciente</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="modal fade" id="accionModal" tabindex="-1" role="dialog" aria-labelledby="accionModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="accionModalLabel">Resultado</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div id="accionContenido"></div>
+      <div class="modal fade" id="accionModal" tabindex="-1" role="dialog" aria-labelledby="accionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="accionModalLabel">Resultado</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="accionContenido"></div>
+            </div>
           </div>
         </div>
       </div>
+      <footer class="bg-info text-white">
+        <p class="text-center pt-3 font-weight-light">Creada por Max Yáñez - Todos los derechos reservados®</p>
+      </footer>
     </div>
-    <footer class="bg-info text-white">
-      <p class="text-center pt-3 font-weight-light">Creada por Max Yáñez - Todos los derechos reservados®</p>
-    </footer>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script src="./javascript/setup.js"></script>
-  <script src="./javascript/actions.js"></script>
-  <script src="./javascript/lib/moment.min.js"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="./javascript/setup.js"></script>
+    <script src="./javascript/actions.js"></script>
+    <script src="./javascript/lib/moment.min.js"></script>
+  </body>
 </html>

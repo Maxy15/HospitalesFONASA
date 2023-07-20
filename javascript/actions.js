@@ -1,9 +1,9 @@
-$('.menu-btn').click(function() {
+$('.menu-btn').click(function(){
   var botonTexto = $(this).text().trim();
   var hospitalID = localStorage.getItem('hospitalID');
   var modalContenido = '';
 
-  switch (botonTexto) {
+  switch (botonTexto){
     case 'Mayor riesgo':
       var formulario = `<form class="p-3">
                           <div class="form-group">
@@ -15,7 +15,7 @@ $('.menu-btn').click(function() {
                         </form>`;
       mostrarModal('Buscar pacientes más riesgosos', formulario);
     
-      $('#accionContenido form').submit(function(event) {
+      $('#accionContenido form').submit(function(event){
         event.preventDefault();
         var pacienteID = $('#pacienteID').val();
         $.ajax({
@@ -23,7 +23,7 @@ $('.menu-btn').click(function() {
           type: 'GET',
           dataType: 'json',
           data: { action: 'mayorRiesgo', pacienteID: pacienteID, hospitalID: hospitalID },
-          success: function(data) {
+          success: function(data){
             var pacientesRiesgososDiv = $('#pacientes-riesgosos');
             pacientesRiesgososDiv.empty();
 
@@ -35,7 +35,7 @@ $('.menu-btn').click(function() {
               var tituloElemento = $('<p class="font-weight-bold"></p>').text(titulo);
               pacientesRiesgososDiv.append(tituloElemento);
               
-              if (otrosPacientes.length > 0) {
+              if (otrosPacientes.length > 0){
                 var lista = $('<ol></ol>');
                 otrosPacientes.forEach(function(paciente) {
                   var itemLista = $('<li></li>').text(`${paciente.nombre} (${paciente.riesgo})`);
@@ -53,7 +53,7 @@ $('.menu-btn').click(function() {
               pacientesRiesgososDiv.append(mensajeElemento);
             }
           },
-          error: function(xhr, status, error) {
+          error: function(xhr, status, error){
             console.log('Error al buscar los pacientes con mayor riesgo que el seleccionado: ' + error);
           }
         });
@@ -65,15 +65,15 @@ $('.menu-btn').click(function() {
         type: 'GET',
         dataType: 'json',
         data: { action: 'mejorConsulta', hospitalID: hospitalID },
-        success: function(data) {
-          if (data && data.length > 0) {
+        success: function(data){
+          if (data && data.length > 0){
             modalContenido = `Consulta Nº${data[0].ID} [Dr(a) ${data[0].nombreEspecialista}] con ${data[0].cantidadPacientes} pacientes atendidos`;
           } else {
             modalContenido = 'No se encontraron consultas registradas.';
           }
           mostrarModal('Consulta con más pacientes atendidos', modalContenido);
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, status, error){
           console.log('Error al buscar la mejor consulta: ' + error);
         }
       });
@@ -84,8 +84,8 @@ $('.menu-btn').click(function() {
         type: 'GET',
         dataType: 'json',
         data: { action: 'fumadoresUrgentes', hospitalID: hospitalID },
-        success: function(data) {
-          if (data && data.length > 0) {
+        success: function(data){
+          if (data && data.length > 0){
             const lista = $('<ol></ol>');
             data.forEach((fumador) => {
               const itemLista = $('<li></li>').text(`${fumador.nombre} con riesgo ${fumador.riesgo}`);
@@ -97,7 +97,7 @@ $('.menu-btn').click(function() {
           }
           mostrarModal('Fumadores que necesitan atención urgente', modalContenido);
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, status, error){
           console.log('Error al obtener los fumadores urgentes: ' + error);
         }
       });
@@ -108,11 +108,11 @@ $('.menu-btn').click(function() {
         type: 'GET',
         dataType: 'json',
         data: { action: 'masAnciano', hospitalID: hospitalID },
-        success: function(data) {
+        success: function(data){
           modalContenido = `${data[0].nombre} con ${data[0].edad} años`;
           mostrarModal('Paciente anciano con más edad', modalContenido);
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, status, error){
           console.log('Error al buscar al paciente más anciano: ' + error);
         }
       });
@@ -129,11 +129,11 @@ $('.menu-btn').click(function() {
           type: 'GET',
           dataType: 'json',
           data: { action: 'liberarConsultas', hospitalID: hospitalID },
-          success: function(data) {
+          success: function(data){
             console.log(data);
             location.reload();
           },
-          error: function(xhr, status, error) {
+          error: function(xhr, status, error){
             console.log('Error al buscar al paciente más anciano: ' + error);
           }
         });
@@ -145,8 +145,8 @@ $('.menu-btn').click(function() {
         type: 'GET',
         dataType: 'json',
         data: { action: 'atenderPaciente', hospitalID: hospitalID },
-        success: function(data) {
-          if (data.nombre) {
+        success: function(data){
+          if (data.nombre){
             modalContenido = `
               <div class="p-3">
                 <p>Paciente ${data.nombre} está siendo atendid@ en la consulta Nº${data.consultaID} de tipo ${data.tipoConsulta}</p>
@@ -160,7 +160,7 @@ $('.menu-btn').click(function() {
           }
           mostrarModal(botonTexto, modalContenido);
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, status, error){
           console.log('Error al intentar atender paciente: ' + error);
         }
       });
@@ -168,7 +168,7 @@ $('.menu-btn').click(function() {
   }
 });
 
-function mostrarModal(titulo, contenido) {
+function mostrarModal(titulo, contenido){
   $('#accionModalLabel').text(titulo);
   $('#accionContenido').html(contenido);
   $('#accionModal').modal('show');
