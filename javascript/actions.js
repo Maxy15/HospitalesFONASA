@@ -146,15 +146,13 @@ $('.menu-btn').click(function() {
         dataType: 'json',
         data: { action: 'atenderPaciente', hospitalID: hospitalID },
         success: function(data) {
-          console.log(data);
           if (data.nombre) {
             modalContenido = `
               <div class="p-3">
                 <p>Paciente ${data.nombre} está siendo atendid@ en la consulta Nº${data.consultaID} de tipo ${data.tipoConsulta}</p>
                 <button id="btn-entendido" class="btn btn-info font-weight-light">Entendido</button>
               </div>`;
-            $('#btn-entendido').click(function(){
-              console.log('yeees!');
+            $(document).on('click', '#btn-entendido', function(){
               location.reload();
             });
           } else {
